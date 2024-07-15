@@ -124,7 +124,9 @@ class TestAccountService(TestCase):
             json=account.serialize(),
             content_type="test/html"
         )
-        self.assertEqual(response.status_code, status.HTTP_415_UNSUPPORTED_MEDIA_TYPE)
+        self.assertEqual(
+            response.status_code,
+            status.HTTP_415_UNSUPPORTED_MEDIA_TYPE)
 
     # ADD YOUR TEST CASES HERE ...
 
@@ -148,22 +150,21 @@ class TestAccountService(TestCase):
         resp = self.client.get(f"{BASE_URL}/0")
         # assert that the resp.status_code is status.HTTP_404_NOT_FOUND
         self.assertEqual(resp.status_code, status.HTTP_404_NOT_FOUND)
-   
+
     def test_update_account(self):
         """It should Update an existing Account"""
         # create an Account to update
         test_account = AccountFactory()
-        # send a self.client.post() request to the BASE_URL with a json payload of test_account.serialize()
         resp = self.client.post(BASE_URL, json=test_account.serialize())
         # assert that the resp.status_code is status.HTTP_201_CREATED
-        self.assertEqual(resp.status_code,status.HTTP_201_CREATED)
+        self.assertEqual(resp.status_code, status.HTTP_201_CREATED)
         # update the account
         # get the data from resp.get_json() as new_account
         new_account = resp.get_json()
         # change new_account["name"] to something known
         new_account["name"] = "Something Known"
         # send a self.client.put() request to the BASE_URL with a json payload of new_account
-        resp = self.client.put(f"{BASE_URL}/{new_account['id']}", json = new_account)
+        resp = self.client.put(f"{BASE_URL}/{new_account['id']}", json=new_account)
         # assert that the resp.status_code is status.HTTP_200_OK
         self.assertEqual(resp.status_code, status.HTTP_200_OK)
         # get the data from resp.get_json() as updated_account
@@ -198,7 +199,7 @@ class TestAccountService(TestCase):
 
     def test_security_headers(self):
         """It should return security headers"""
-        response = self.client.get('/', environ_overrides = HTTPS_ENVIRON)
+        response = self.client.get('/', environ_overrides=HTTPS_ENVIRON)
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         headers = {
             'X-Frame-Options': 'SAMEORIGIN',
@@ -211,7 +212,7 @@ class TestAccountService(TestCase):
 
     def test_cors_security(self):
         """It should return a CORS header"""
-        response = self.client.get('/', environ_overrides = HTTPS_ENVIRON)
+        response = self.client.get('/', environ_overrides=HTTPS_ENVIRON)
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         # Check for the CORS header
         self.assertEqual(response.headers.get('Access-Control-Allow-Origin'), '*')
