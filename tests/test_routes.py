@@ -21,6 +21,7 @@ DATABASE_URI = os.getenv(
 BASE_URL = "/accounts"
 HTTPS_ENVIRON = {'wsgi.url_scheme': 'https'}
 
+
 ######################################################################
 #  T E S T   C A S E S
 ######################################################################
@@ -147,7 +148,7 @@ class TestAccountService(TestCase):
         resp = self.client.get(f"{BASE_URL}/0")
         # assert that the resp.status_code is status.HTTP_404_NOT_FOUND
         self.assertEqual(resp.status_code, status.HTTP_404_NOT_FOUND)
-    
+   
     def test_update_account(self):
         """It should Update an existing Account"""
         # create an Account to update
@@ -164,7 +165,7 @@ class TestAccountService(TestCase):
         # send a self.client.put() request to the BASE_URL with a json payload of new_account
         resp = self.client.put(f"{BASE_URL}/{new_account['id']}", json = new_account)
         # assert that the resp.status_code is status.HTTP_200_OK
-        self.assertEqual(resp.status_code,status.HTTP_200_OK)
+        self.assertEqual(resp.status_code, status.HTTP_200_OK)
         # get the data from resp.get_json() as updated_account
         updated_account = resp.get_json()
         # assert that the updated_account["name"] is whatever you changed it to
@@ -176,7 +177,7 @@ class TestAccountService(TestCase):
         # send a self.client.delete() request to the BASE_URL with an id of an account
         resp = self.client.delete(f"{BASE_URL}/{account.id}")
         # assert that the resp.status_code is status.HTTP_204_NO_CONTENT
-        self.assertEqual(resp.status_code,status.HTTP_204_NO_CONTENT)
+        self.assertEqual(resp.status_code, status.HTTP_204_NO_CONTENT)
 
     def test_get_account_list(self):
         """It should Get a list of Accounts"""
@@ -187,7 +188,7 @@ class TestAccountService(TestCase):
         self.assertEqual(resp.status_code, status.HTTP_200_OK)
         # get the data from resp.get_json()
         data = resp.get_json()
-        # assert that the len() of the data is 5 (the number of accounts you created)        
+        # assert that the len() of the data is 5 (the number of accounts you created)
         self.assertEqual(len(data), 5)
 
     def test_method_not_allowed(self):
